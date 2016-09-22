@@ -175,13 +175,12 @@ public class InputList{
     *   @return bool
     */    
     private boolean isValid(String[] inputElements){
+        if(inputElements.length == 0) return false;
         for(String eachInputElement : inputElements){
             try {
                 Integer.parseInt(eachInputElement.trim());
             }
             catch( Exception e ) {
-                this.invalidInput.add(Arrays.asList(inputElements));
-                this.invalidListCount++;
                 return false;
             }
         }
@@ -205,8 +204,10 @@ public class InputList{
             //Splitting the input string using delimiters
             String[] eachLineElements = strLine.split(",");
 
-            //Checking the validity of the string
+            //Checking the validity of the string and updating the values
             if(!isValid(eachLineElements)){
+                this.invalidInput.add(Arrays.asList(strLine));
+                this.invalidListCount++;
                 continue;
             }
 
