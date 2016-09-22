@@ -1,46 +1,48 @@
 /**
 * 
-* Object class for Input Array
+* Input List
 * 
 * @author nirlendu.saha
 * v1.0
 */
 
+package src.lib.inputList;
+
 import java.util.*;
 import java.io.*;
 
 
-public class InputArray{
+public class InputList{
 
     /**
-    *  Hash Map to store the arrays
+    *  Hash Map to store the lists
     */
-    private Map<Integer, ArrayList<ArrayData>> previousArrays = new HashMap<Integer, ArrayList<ArrayData>>();
+    private Map<Integer, ArrayList<ListData>> previousLists = new HashMap<Integer, ArrayList<ListData>>();
     
     /**
-    *  Count of most recurring array
+    *  Count of most recurring list
     */
     private int maxCount = 0;
 
     /**
-    *  Count of duplicate arrays
+    *  Count of duplicate list
     */
     private int duplicateListCount = 0;
 
     /**
-    *  Count of unique arrays
+    *  Count of unique list
     */
     private int uniqueListCount = 0;
 
     /**
-    *  Count of invalid arrays
+    *  Count of invalid list
     */
     private int invalidListCount = 0;
 
     /**
-    *  The most frequent array
+    *  The most frequent list
     */
-    private List<Integer> mostFrequentArray = new ArrayList<Integer>();
+    private List<Integer> mostFrequentList = new ArrayList<Integer>();
 
     /**
     *  All the invalid inputs
@@ -48,87 +50,121 @@ public class InputArray{
     private List<List<String>> invalidInput = new ArrayList<List<String>>();
 
     /**
-    *  Checks for most frequent arrays
+    *   Checks for most frequent list
+    *
+    *   @param int NewCount, List<Integer> newList
     */
-    private void mostFrequent(int newCount, List<Integer> newArray){
+    private void mostFrequent(int newCount, List<Integer> newList){
         if(this.maxCount < newCount){
             this.maxCount = newCount;
-            this.mostFrequentArray = newArray;
+            this.mostFrequentList = newList;
         }
     }
 
     /**
-    *  Count of unique arrays
+    *   The most frequent list
+    *
+    *   @return List<Integer> mostFrequentList
     */
-    public List<Integer> getMostFrequentArray(){
-        return this.mostFrequentArray;
+    public List<Integer> getMostFrequentList(){
+        return this.mostFrequentList;
     }
 
+    /**
+    *   Count of most recurring list
+    *
+    *   @return int maxCount
+    */
     public int getMaxCount(){
         return this.maxCount;
     }
 
+    /**
+    *   Count of duplicating lists
+    *
+    *   @return int duplicateListCount
+    */
     public int getDuplicateListCount(){
         return this.duplicateListCount;
     }
 
+    /**
+    *   Count of unique lists
+    *
+    *   @return int uniqueListCount
+    */
     public int getUniqueListCount(){
         return this.uniqueListCount;
     }
 
+    /**
+    *   Count of invalid lists
+    *
+    *   @return int invalidListCount
+    */
     public int getInvalidListCount(){
         return this.invalidListCount;
     }
 
-    public boolean insertNewArray(List<Integer> newArray){
+    /**
+    *   Insert a new List
+    *
+    *   @param List<Integer> newList
+    *   @return bool
+    */
+    public boolean insertNewList(List<Integer> newList){
 
         //Flag to maintain if the list is duplicate
         boolean isExist = false;
 
         //Sorts the list for easier comparision in future. Merge Sort done  - O(n log n)
-        Collections.sort(newArray);
+        Collections.sort(newList);
         
         //Checks whether the key (size of the list) exists in existing Hash Map
-        if(this.previousArrays.containsKey(newArray.size())){
-            List<ArrayData> itemsList = previousArrays.get(newArray.size());
+        if(this.previousLists.containsKey(newList.size())){
+            List<ListData> itemsList = previousLists.get(newList.size());
 
             //Checks for the repeated occurance of the List
-            for (ArrayData eachArray : itemsList){
-                if (eachArray.getInputArray().equals(newArray)){
-                    eachArray.setCount(eachArray.getCount() + 1);
+            for (ListData eachList : itemsList){
+                if (eachList.getInputList().equals(newList)){
+                    eachList.setCount(eachList.getCount() + 1);
                     isExist = true;
                     this.duplicateListCount++;
-                    this.mostFrequent(eachArray.getCount(), eachArray.getInputArray());
+                    this.mostFrequent(eachList.getCount(), eachList.getInputList());
                     break;
                 }
             }
 
             //List is not duplicate
             if(!isExist){
-                ArrayData myItem = new ArrayData();
-                myItem.setInputArray(newArray);
+                ListData myItem = new ListData();
+                myItem.setInputList(newList);
                 myItem.setCount(1); 
                 if(!itemsList.contains(myItem)) itemsList.add(myItem);
                 isExist = false;
                 this.uniqueListCount++;
-                this.mostFrequent(myItem.getCount(), myItem.getInputArray());
+                this.mostFrequent(myItem.getCount(), myItem.getInputList());
             }
         }else{
-            ArrayList<ArrayData> itemsList = new ArrayList<ArrayData>();
-            ArrayData myItem = new ArrayData();
-            myItem.setInputArray(newArray);
+            ArrayList<ListData> itemsList = new ArrayList<ListData>();
+            ListData myItem = new ListData();
+            myItem.setInputList(newList);
             myItem.setCount(1);            
             itemsList.add(myItem);
-            this.previousArrays.put(newArray.size(), itemsList);
+            this.previousLists.put(newList.size(), itemsList);
             this.uniqueListCount++;
-            this.mostFrequent(myItem.getCount(), myItem.getInputArray());
+            this.mostFrequent(myItem.getCount(), myItem.getInputList());
         }
 
         return isExist;
     }
 
-
-
+    /**
+    *   Checks for the validity of a new List
+    *
+    *   @param String[] inputElements
+    *   @return bool
+    */    
     private boolean isValid(String[] inputElements){
         for(String eachInputElement : inputElements){
             try {
@@ -143,8 +179,13 @@ public class InputArray{
         return true;
     }
 
+    /**
+    *   Read a file for sample input
+    *
+    *   @param String fileName
+    */
     public void readFile(String fileName) throws FileNotFoundException, IOException{
-        
+
         FileInputStream fstream = new FileInputStream(fileName);
         BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
         String strLine;
@@ -170,7 +211,7 @@ public class InputArray{
                 }
             }
             //inserting the clean List in the HashMap
-            insertNewArray(Arrays.asList(intarray));
+            insertNewList(Arrays.asList(intarray));
         }
 
         //Close the input stream
