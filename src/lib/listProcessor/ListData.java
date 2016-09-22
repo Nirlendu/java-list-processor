@@ -6,7 +6,7 @@
 * v1.0
 */
 
-package src.lib.inputList;
+package src.lib.listProcessor;
 
 import java.util.ArrayList;
 import java.util.List;

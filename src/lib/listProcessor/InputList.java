@@ -6,7 +6,7 @@
 * v1.0
 */
 
-package src.lib.inputList;
+package src.lib.listProcessor;
 
 import java.util.*;
 import java.io.*;
@@ -107,6 +107,15 @@ public class InputList{
     }
 
     /**
+    *   All the invalid inputs
+    *
+    *   @return List<List<String>> invalidInput
+    */
+    public List<List<String>> getInvalidInput(){
+        return this.invalidInput;
+    }
+
+    /**
     *   Insert a new List
     *
     *   @param List<Integer> newList
@@ -172,7 +181,7 @@ public class InputList{
             }
             catch( Exception e ) {
                 this.invalidInput.add(Arrays.asList(inputElements));
-                System.out.println(this.invalidInput);
+                this.invalidListCount++;
                 return false;
             }
         }
@@ -192,6 +201,8 @@ public class InputList{
 
         //Reading the string line by line
         while ((strLine = br.readLine()) != null){
+
+            //Splitting the input string using delimiters
             String[] eachLineElements = strLine.split(",");
 
             //Checking the validity of the string
