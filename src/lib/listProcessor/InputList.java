@@ -121,7 +121,7 @@ public class InputList{
     *   @param List<Integer> newList
     *   @return bool
     */
-    public boolean insertNewList(List<Integer> newList){
+    private boolean insertNewList(List<Integer> newList){
 
         //Flag to maintain if the list is duplicate
         boolean isExist = false;
@@ -190,6 +190,40 @@ public class InputList{
     /**
     *   Read a file for sample input
     *
+    *   @param String newDataString
+    *   @return boolean
+    */   
+    public boolean insertNewString(String newDataString){
+
+        //Splitting the input string using delimiters
+        String[] newDataElements = newDataString.split(",");
+
+        //Checking the validity of the string and updating the values
+        if(!isValid(newDataElements)){
+            this.invalidInput.add(Arrays.asList(newDataString));
+            this.invalidListCount++;
+            return false;
+        }
+
+        //Typecasting all the elements in the list from String to Integer
+        Integer[] intarray = new Integer[newDataElements.length];
+        int i = 0;
+        for ( String elements : newDataElements){
+            try{
+                intarray[i]=Integer.parseInt(elements.trim());
+                i++;
+            }catch( Exception e ) {
+                continue;
+            }
+        }
+        //inserting the clean List in the HashMap
+        return insertNewList(Arrays.asList(intarray));
+
+    }
+
+    /**
+    *   Read a file for sample input
+    *
     *   @param String fileName
     */
     public void readFile(String fileName) throws FileNotFoundException, IOException{
@@ -200,30 +234,8 @@ public class InputList{
 
         //Reading the string line by line
         while ((strLine = br.readLine()) != null){
-
-            //Splitting the input string using delimiters
-            String[] eachLineElements = strLine.split(",");
-
-            //Checking the validity of the string and updating the values
-            if(!isValid(eachLineElements)){
-                this.invalidInput.add(Arrays.asList(strLine));
-                this.invalidListCount++;
-                continue;
-            }
-
-            //Typecasting all the elements in the list from String to Integer
-            Integer[] intarray = new Integer[eachLineElements.length];
-            int i = 0;
-            for ( String elements : eachLineElements){
-                try{
-                    intarray[i]=Integer.parseInt(elements.trim());
-                    i++;
-                }catch( Exception e ) {
-                    continue;
-                }
-            }
-            //inserting the clean List in the HashMap
-            insertNewList(Arrays.asList(intarray));
+            //inserting each line as a string from the file
+            insertNewString(strLine);
         }
 
         //Close the input stream

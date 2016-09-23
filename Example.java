@@ -56,10 +56,10 @@ public class Example{
         }
 
         //Static string to load
-        List<Integer> sampleList = Arrays.asList(1,2,4,3);
+        String sampleList = "1,2,4,3";
 
         //Is Sample String Dulpicate
-        System.out.println(this.IS_DUPLICATE + inputList.insertNewList(sampleList));
+        System.out.println(this.IS_DUPLICATE + inputList.insertNewString(sampleList));
 
         //Most Frequent List
         System.out.println(this.MOST_FREQUENT_LIST + inputList.getMostFrequentList());
