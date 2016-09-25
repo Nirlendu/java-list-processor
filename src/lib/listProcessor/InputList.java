@@ -188,7 +188,7 @@ public class InputList{
     }
 
     /**
-    *   Read a file for sample input
+    *   Read a string for sample input
     *
     *   @param String newDataString
     *   @return boolean
