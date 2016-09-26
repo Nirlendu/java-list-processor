@@ -12,7 +12,8 @@ Java package to iterate through a large amount of list of strings and process th
 
 Time (worst case) - O(m*n)
 
-m = Number of Lists
+m = Number of Lists,
+
 n = Size of List
 
 This happens when all the lists are of the same size, thus getting stored under the same hash key.
@@ -20,5 +21,6 @@ But the performance is very good under assuming average distribution.
 
 Space - O(m*n)
 
-m = Number of Lists
+m = Number of Lists, 
+
 n = Size of List
